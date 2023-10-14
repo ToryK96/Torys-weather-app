@@ -83,9 +83,9 @@ function displayCity(event) {
     let currentTemp = Math.round(response.data.temperature.current);
     let weatherType = response.data.condition.description;
     let windSpeedNow = Math.round(response.data.wind.speed * 2.23694);
-    let conditionIconNow = document.querySelector("#weather-icon-now");
-    conditionIconNow.setAttribute("src", response.data.condition.icon_url);
-    conditionIconNow.setAttribute("alt", response.data.condition.description);
+    let iconElementNow = document.querySelector("#weather-icon-now");
+    iconElementNow.setAttribute("src", response.data.condition.icon_url);
+    iconElementNow.setAttribute("alt", response.data.condition.description);
     document.querySelector("#current-temp").innerHTML = `${currentTemp}℃`;
     document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
     document.querySelector(
