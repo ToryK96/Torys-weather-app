@@ -79,10 +79,13 @@ function displayCity(event) {
   let apiSearch = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}&units=metric`;
   function searchWeather(response) {
     console.log(response);
-    console.log(response.data.main.temp);
-    let currentTemp = Math.round(response.data.main.temp);
-    let weatherType = response.data.weather[0].description;
+    console.log(response.data.temperature.current);
+    let currentTemp = Math.round(response.data.temperature.current);
+    let weatherType = response.data.condition.description;
     let windSpeedNow = Math.round(response.data.wind.speed * 2.23694);
+    let conditionIconNow = document.querySelector("#weather-icon-now");
+    conditionIconNow.setAttribute("src", response.data.condition.icon_url);
+    conditionIconNow.setAttribute("alt", response.data.condition.description);
     document.querySelector("#current-temp").innerHTML = `${currentTemp}℃`;
     document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
     document.querySelector(
