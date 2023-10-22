@@ -257,6 +257,9 @@ function findDay5(date) {
 function formatTime(time) {
   let hours = time.getHours();
   let mins = time.getMinutes();
+  if (mins < 10) {
+    mins = `0${mins}`;
+  }
   let formattedTime = `${hours}:${mins}`;
   return formattedTime;
 }
@@ -430,7 +433,7 @@ function getLocalWeather(event) {
 }
 currentBTN.addEventListener("click", getLocalWeather);
 
-//convert to f
+//convert to f (current weather only)
 function farConvert(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#current-temp");
@@ -441,7 +444,7 @@ function farConvert(event) {
 let displayFar = document.querySelector("#convert-far");
 displayFar.addEventListener("click", farConvert);
 
-//convert to c
+//convert to c (current weather only)
 function celsius(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#current-temp");
