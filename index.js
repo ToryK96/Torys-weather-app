@@ -103,3 +103,25 @@ function getLocalWeather(event) {
   navigator.geolocation.getCurrentPosition(currentPosition);
 }
 currentBTN.addEventListener("click", getLocalWeather);
+
+// convert to fahrenheit
+function displayFar(event) {
+  event.preventDefault();
+  let temperatureC = document.querySelector("#current-temp").innerHTML;
+  let fahrenheitConversion = Math.round((Number(temperatureC) * 9) / 5 + 32);
+  document.querySelector("#current-temp").innerHTML = `${fahrenheitConversion}`;
+  document.querySelector("#celcius").innerHTML = "F";
+}
+let farConvert = document.querySelector("#convert-far");
+farConvert.addEventListener("click", displayFar);
+
+// convert to celcius
+function displayCel(event) {
+  event.preventDefault();
+  let temperatureF = document.querySelector("#current-temp").innerHTML;
+  let fahrenheitConversion = Math.round(((Number(temperatureF) - 32) * 5) / 9);
+  document.querySelector("#current-temp").innerHTML = `${fahrenheitConversion}`;
+  document.querySelector("#celcius").innerHTML = "F";
+}
+let celConvert = document.querySelector("#convert-cel");
+celConvert.addEventListener("click", displayCel);
