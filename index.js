@@ -28,115 +28,28 @@ function currentPosition(position) {
     ).innerHTML = `${windSpeedNow}mph wind`;
     celsiusTemperature = response.data.daily[0].temperature.day;
   }
-  function weatherday1(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-1");
-    let lowTemp = document.querySelector("#low-temp-day-1");
-    let weatherType = response.data.daily[1].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[1].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day1");
+  function updateweatherdayX(response, dayIndex) {
+    let highTemp = document.querySelector(`#high-temp-day-${dayIndex}`);
+    let lowTemp = document.querySelector(`#low-temp-day-${dayIndex}`);
+    let weatherType = response.data.daily[dayIndex].condition.description;
+    let windSpeedNow = Math.round(
+      response.data.daily[dayIndex].wind.speed * 2.23694
+    );
+    let iconElementNow = document.querySelector(`#weather-icon-day${dayIndex}`);
     iconElementNow.setAttribute(
       "src",
-      response.data.daily[1].condition.icon_url
+      response.data.daily[dayIndex].condition.icon_url
     );
     iconElementNow.setAttribute(
       "alt",
-      response.data.daily[1].condition.description
+      response.data.daily[dayIndex].condition.description
     );
-    highTemp.innerHTML = Math.round(response.data.daily[1].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[1].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday2(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-2");
-    let lowTemp = document.querySelector("#low-temp-day-2");
-    let weatherType = response.data.daily[2].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[2].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day2");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[2].condition.icon_url
+    highTemp.innerHTML = Math.round(
+      response.data.daily[dayIndex].temperature.maximum
     );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[2].condition.description
+    lowTemp.innerHTML = Math.round(
+      response.data.daily[dayIndex].temperature.minimum
     );
-    highTemp.innerHTML = Math.round(response.data.daily[2].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[2].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday3(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-3");
-    let lowTemp = document.querySelector("#low-temp-day-3");
-    let weatherType = response.data.daily[3].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[3].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day3");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[3].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[3].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[3].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[3].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday4(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-4");
-    let lowTemp = document.querySelector("#low-temp-day-4");
-    let weatherType = response.data.daily[4].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[4].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day4");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[4].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[4].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[4].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[4].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday5(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-5");
-    let lowTemp = document.querySelector("#low-temp-day-5");
-    let weatherType = response.data.daily[5].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[5].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day5");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[5].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[5].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[5].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[5].temperature.minimum);
     document.querySelector(".units").innerHTML = "℃";
     document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
     document.querySelector(
@@ -145,11 +58,11 @@ function currentPosition(position) {
   }
 
   axios.get(apiLocal).then(getWeather);
-  axios.get(apiLocal).then(weatherday1);
-  axios.get(apiLocal).then(weatherday2);
-  axios.get(apiLocal).then(weatherday3);
-  axios.get(apiLocal).then(weatherday4);
-  axios.get(apiLocal).then(weatherday5);
+  axios.get(apiLocal).then((response) => {
+    for (let i = 1; i <= 5; i++) {
+      updateweatherdayX(response, i);
+    }
+  });
 }
 navigator.geolocation.getCurrentPosition(currentPosition);
 
@@ -301,127 +214,41 @@ function displayCity(event) {
     ).innerHTML = `${windSpeedNow}mph wind`;
     celsiusTemperature = response.data.daily[0].temperature.day;
   }
-  function weatherday1(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-1");
-    let lowTemp = document.querySelector("#low-temp-day-1");
-    let weatherType = response.data.daily[1].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[1].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day1");
+  function updateweatherdayX(response, dayIndex) {
+    let highTemp = document.querySelector(`#high-temp-day-${dayIndex}`);
+    let lowTemp = document.querySelector(`#low-temp-day-${dayIndex}`);
+    let weatherType = response.data.daily[dayIndex].condition.description;
+    let windSpeedNow = Math.round(
+      response.data.daily[dayIndex].wind.speed * 2.23694
+    );
+    let iconElementNow = document.querySelector(`#weather-icon-day${dayIndex}`);
     iconElementNow.setAttribute(
       "src",
-      response.data.daily[1].condition.icon_url
+      response.data.daily[dayIndex].condition.icon_url
     );
     iconElementNow.setAttribute(
       "alt",
-      response.data.daily[1].condition.description
+      response.data.daily[dayIndex].condition.description
     );
-    highTemp.innerHTML = Math.round(response.data.daily[1].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[1].temperature.minimum);
+    highTemp.innerHTML = Math.round(
+      response.data.daily[dayIndex].temperature.maximum
+    );
+    lowTemp.innerHTML = Math.round(
+      response.data.daily[dayIndex].temperature.minimum
+    );
     document.querySelector(".units").innerHTML = "℃";
     document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
     document.querySelector(
       ".wind-stats-now"
     ).innerHTML = `${windSpeedNow}mph wind`;
   }
-  function weatherday2(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-2");
-    let lowTemp = document.querySelector("#low-temp-day-2");
-    let weatherType = response.data.daily[2].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[2].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day2");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[2].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[2].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[2].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[2].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday3(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-3");
-    let lowTemp = document.querySelector("#low-temp-day-3");
-    let weatherType = response.data.daily[3].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[3].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day3");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[3].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[3].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[3].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[3].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday4(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-4");
-    let lowTemp = document.querySelector("#low-temp-day-4");
-    let weatherType = response.data.daily[4].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[4].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day4");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[4].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[4].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[4].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[4].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
-  function weatherday5(response) {
-    console.log(response);
-    let highTemp = document.querySelector("#high-temp-day-5");
-    let lowTemp = document.querySelector("#low-temp-day-5");
-    let weatherType = response.data.daily[5].condition.description;
-    let windSpeedNow = Math.round(response.data.daily[5].wind.speed * 2.23694);
-    let iconElementNow = document.querySelector("#weather-icon-day5");
-    iconElementNow.setAttribute(
-      "src",
-      response.data.daily[5].condition.icon_url
-    );
-    iconElementNow.setAttribute(
-      "alt",
-      response.data.daily[5].condition.description
-    );
-    highTemp.innerHTML = Math.round(response.data.daily[5].temperature.maximum);
-    lowTemp.innerHTML = Math.round(response.data.daily[5].temperature.minimum);
-    document.querySelector(".units").innerHTML = "℃";
-    document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
-    document.querySelector(
-      ".wind-stats-now"
-    ).innerHTML = `${windSpeedNow}mph wind`;
-  }
+
   axios.get(apiSearch).then(currentWeather);
-  axios.get(apiSearch).then(weatherday1);
-  axios.get(apiSearch).then(weatherday2);
-  axios.get(apiSearch).then(weatherday3);
-  axios.get(apiSearch).then(weatherday4);
-  axios.get(apiSearch).then(weatherday5);
+  axios.get(apiSearch).then((response) => {
+    for (let i = 1; i <= 5; i++) {
+      updateweatherdayX(response, i);
+    }
+  });
 }
 let searchLoc = document.querySelector("#search-location");
 searchLoc.addEventListener("click", displayCity);
