@@ -188,6 +188,71 @@ function formatDate(date) {
   let formattedDate = `${currentDay}, ${currentMonth} ${currentDate}, ${currentYear}`;
   return formattedDate;
 }
+function findDay1(date) {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day1 = days[date.getDay() + 1];
+  return day1;
+}
+function findDay2(date) {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day2 = days[date.getDay() + 2];
+  return day2;
+}
+function findDay3(date) {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day3 = days[date.getDay() + 3];
+  return day3;
+}
+function findDay4(date) {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day4 = days[date.getDay() + 4];
+  return day4;
+}
+function findDay5(date) {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day5 = days[date.getDay() + 5];
+  return day5;
+}
 
 function formatTime(time) {
   let hours = time.getHours();
@@ -197,6 +262,11 @@ function formatTime(time) {
 }
 
 document.querySelector("#todayDate").innerHTML = `${formatDate(today)}`;
+document.querySelector("#day1").innerHTML = `${findDay1(today)}`;
+document.querySelector("#day2").innerHTML = `${findDay2(today)}`;
+document.querySelector("#day3").innerHTML = `${findDay3(today)}`;
+document.querySelector("#day4").innerHTML = `${findDay4(today)}`;
+document.querySelector("#day5").innerHTML = `${findDay5(today)}`;
 document.querySelector("#timeNow").innerHTML = `${formatTime(today)}`;
 
 //display weather for searched city
