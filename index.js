@@ -2,17 +2,25 @@
 function currentPosition(position) {
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
-  let myLocation = document.querySelector("#currentLoc");
-  myLocation.innerHTML = `Current location`;
   //
-  let apiKey = "5354b60afda2b7800186c06153932396";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+  let apiKey = "7tc34ea233a0fd494dc646afo0f7bac1";
+  let apiLocal = `https://api.shecodes.io/weather/v1/forecast?lon=${longitude}&lat=${latitude}&key=${apiKey}&units=metric`;
   function getWeather(response) {
     console.log(response);
-    console.log(response.data.main.temp);
-    let currentTemp = Math.round(response.data.main.temp);
-    let weatherType = response.data.weather[0].description;
-    let windSpeedNow = Math.round(response.data.wind.speed * 2.23694);
+    let currentLoc = response.data.city;
+    let currentTemp = Math.round(response.data.daily[0].temperature.day);
+    let weatherType = response.data.daily[0].condition.description;
+    let windSpeedNow = Math.round(response.data.daily[0].wind.speed * 2.23694);
+    let iconElementNow = document.querySelector("#weather-icon-now");
+    iconElementNow.setAttribute(
+      "src",
+      response.data.daily[0].condition.icon_url
+    );
+    iconElementNow.setAttribute(
+      "alt",
+      response.data.daily[0].condition.description
+    );
+    document.querySelector("#currentLoc").innerHTML = `${currentLoc}`;
     document.querySelector("#current-temp").innerHTML = `${currentTemp}℃`;
     document.querySelector("#cloud-cover").innerHTML = `${weatherType}`;
     document.querySelector(
@@ -20,7 +28,7 @@ function currentPosition(position) {
     ).innerHTML = `${windSpeedNow}mph wind`;
   }
 
-  axios.get(apiUrl).then(getWeather);
+  axios.get(apiLocal).then(getWeather);
 }
 navigator.geolocation.getCurrentPosition(currentPosition);
 
@@ -104,24 +112,19 @@ function getLocalWeather(event) {
 }
 currentBTN.addEventListener("click", getLocalWeather);
 
-// convert to fahrenheit
-function displayFar(event) {
+//covert to f
+function farConvert(event) {
   event.preventDefault();
-  let temperatureC = document.querySelector("#current-temp").innerHTML;
-  let fahrenheitConversion = Math.round((Number(temperatureC) * 9) / 5 + 32);
-  document.querySelector("#current-temp").innerHTML = `${fahrenheitConversion}`;
-  document.querySelector("#celcius").innerHTML = "F";
+  let displayedLocation = document.querySelector("#currentLoc");
+  let apiKey = "7tc34ea233a0fd494dc646afo0f7bac1";
+  let apiSearch = `https://api.shecodes.io/weather/v1/current?query=${displayedLocation}&key=${apiKey}&units=imperial`;
+  function convertF(response) {
+    console.log(response);
+    console.log(response.data.temperature.current);
+    let currentTemp = Math.round(response.data.temperature.current);
+    document.querySelector("#current-temp").innerHTML = `${currentTemp}℉`;
+  }
+  axios.get(apiSearch).then(convertF);
 }
-let farConvert = document.querySelector("#convert-far");
-farConvert.addEventListener("click", displayFar);
-
-// convert to celcius
-function displayCel(event) {
-  event.preventDefault();
-  let temperatureF = document.querySelector("#current-temp").innerHTML;
-  let fahrenheitConversion = Math.round(((Number(temperatureF) - 32) * 5) / 9);
-  document.querySelector("#current-temp").innerHTML = `${fahrenheitConversion}`;
-  document.querySelector("#celcius").innerHTML = "F";
-}
-let celConvert = document.querySelector("#convert-cel");
-celConvert.addEventListener("click", displayCel);
+let displayFar = document.querySelector("#convert-far");
+displayFar.addEventListener("click", farConvert);
